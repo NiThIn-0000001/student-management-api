@@ -1,0 +1,228 @@
+﻿{
+    "info":  {
+                 "_postman_id":  "eb11b5e7-cc56-4260-81f3-79245b30dc47",
+                 "name":  "Student Management API Testing",
+                 "schema":  "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+                 "_exporter_id":  "60259818",
+                 "_collection_link":  "https://go.postman.co/collection/60259818-eb11b5e7-cc56-4260-81f3-79245b30dc47?source=collection_link"
+             },
+    "item":  [
+                 {
+                     "name":  "1 - Add Student",
+                     "event":  [
+                                   {
+                                       "listen":  "test",
+                                       "script":  {
+                                                      "type":  "text/javascript",
+                                                      "exec":  [
+                                                                   "const responseData = pm.response.json();",
+                                                                   "",
+                                                                   "pm.test(\"Status code is 200\", function () {",
+                                                                   "    pm.response.to.have.status(200);",
+                                                                   "});",
+                                                                   "",
+                                                                   "pm.test(\"Student name is Rahul\", function () {",
+                                                                   "    pm.expect(responseData.name).to.eql(\"Rahul\");",
+                                                                   "});",
+                                                                   "",
+                                                                   "pm.test(\"Student ID exists\", function () {",
+                                                                   "    pm.expect(responseData.id).to.exist;",
+                                                                   "});",
+                                                                   "",
+                                                                   "pm.collectionVariables.set(\"studentId\", responseData.id);",
+                                                                   "console.log(\"Saved Student ID:\", responseData.id);"
+                                                               ]
+                                                  }
+                                   }
+                               ],
+                     "request":  {
+                                     "method":  "POST",
+                                     "header":  [
+
+                                                ],
+                                     "body":  {
+                                                  "mode":  "raw",
+                                                  "raw":  "{\r\n  \"name\": \"Rahul\",\r\n  \"email\": \"rahul@gmail.com\",\r\n  \"course\": \"Information Science\"\r\n}",
+                                                  "options":  {
+                                                                  "raw":  {
+                                                                              "language":  "json"
+                                                                          }
+                                                              }
+                                              },
+                                     "url":  {
+                                                 "raw":  "http://localhost:8080/api/students",
+                                                 "protocol":  "http",
+                                                 "host":  [
+                                                              "localhost"
+                                                          ],
+                                                 "port":  "8080",
+                                                 "path":  [
+                                                              "api",
+                                                              "students"
+                                                          ]
+                                             }
+                                 },
+                     "response":  [
+
+                                  ]
+                 },
+                 {
+                     "name":  "2 - Get All Students",
+                     "event":  [
+                                   {
+                                       "listen":  "test",
+                                       "script":  {
+                                                      "type":  "text/javascript",
+                                                      "exec":  [
+                                                                   "pm.test(\"Status code is 200\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\n\r\npm.test(\"Response is an array\", function () {\r\n    let data = pm.response.json();\r\n    pm.expect(data).to.be.an(\"array\");\r\n});"
+                                                               ]
+                                                  }
+                                   }
+                               ],
+                     "request":  {
+                                     "method":  "GET",
+                                     "header":  [
+
+                                                ],
+                                     "url":  {
+                                                 "raw":  "http://localhost:8080/api/students",
+                                                 "protocol":  "http",
+                                                 "host":  [
+                                                              "localhost"
+                                                          ],
+                                                 "port":  "8080",
+                                                 "path":  [
+                                                              "api",
+                                                              "students"
+                                                          ]
+                                             }
+                                 },
+                     "response":  [
+
+                                  ]
+                 },
+                 {
+                     "name":  "3 - Get Student By ID",
+                     "event":  [
+                                   {
+                                       "listen":  "test",
+                                       "script":  {
+                                                      "type":  "text/javascript",
+                                                      "exec":  [
+                                                                   "pm.test(\"Student ID exists\", function () {\r\n    let data = pm.response.json();\r\n    pm.expect(data.id).to.eql(\r\n        Number(pm.collectionVariables.get(\"studentId\"))\r\n    );\r\n});"
+                                                               ]
+                                                  }
+                                   }
+                               ],
+                     "request":  {
+                                     "method":  "GET",
+                                     "header":  [
+
+                                                ],
+                                     "url":  {
+                                                 "raw":  "http://localhost:8080/api/students/{{studentId}}",
+                                                 "protocol":  "http",
+                                                 "host":  [
+                                                              "localhost"
+                                                          ],
+                                                 "port":  "8080",
+                                                 "path":  [
+                                                              "api",
+                                                              "students",
+                                                              "{{studentId}}"
+                                                          ]
+                                             }
+                                 },
+                     "response":  [
+
+                                  ]
+                 },
+                 {
+                     "name":  "4 - Update Student",
+                     "event":  [
+                                   {
+                                       "listen":  "test",
+                                       "script":  {
+                                                      "type":  "text/javascript",
+                                                      "exec":  [
+                                                                   "pm.test(\"Status code is 200\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\n\r\npm.test(\"Student updated successfully\", function () {\r\n    let data = pm.response.json();\r\n    pm.expect(data.name).to.eql(\"Rahul Kumar\");\r\n    pm.expect(data.course).to.eql(\"Computer Science\");\r\n});"
+                                                               ]
+                                                  }
+                                   }
+                               ],
+                     "request":  {
+                                     "method":  "PUT",
+                                     "header":  [
+
+                                                ],
+                                     "body":  {
+                                                  "mode":  "raw",
+                                                  "raw":  "{\r\n  \"name\": \"Rahul Kumar\",\r\n  \"email\": \"rahulkumar@gmail.com\",\r\n  \"course\": \"Computer Science\"\r\n}",
+                                                  "options":  {
+                                                                  "raw":  {
+                                                                              "language":  "json"
+                                                                          }
+                                                              }
+                                              },
+                                     "url":  {
+                                                 "raw":  "http://localhost:8080/api/students/{{studentId}}",
+                                                 "protocol":  "http",
+                                                 "host":  [
+                                                              "localhost"
+                                                          ],
+                                                 "port":  "8080",
+                                                 "path":  [
+                                                              "api",
+                                                              "students",
+                                                              "{{studentId}}"
+                                                          ]
+                                             }
+                                 },
+                     "response":  [
+
+                                  ]
+                 },
+                 {
+                     "name":  "5 - Delete Student",
+                     "event":  [
+                                   {
+                                       "listen":  "test",
+                                       "script":  {
+                                                      "type":  "text/javascript",
+                                                      "exec":  [
+                                                                   "pm.test(\"Status code is 200\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\n\r\npm.test(\"Student deleted successfully\", function () {\r\n    pm.expect(pm.response.text()).to.eql(\"Student deleted successfully\");\r\n});"
+                                                               ]
+                                                  }
+                                   }
+                               ],
+                     "request":  {
+                                     "method":  "DELETE",
+                                     "header":  [
+
+                                                ],
+                                     "url":  {
+                                                 "raw":  "http://localhost:8080/api/students/{{studentId}}",
+                                                 "protocol":  "http",
+                                                 "host":  [
+                                                              "localhost"
+                                                          ],
+                                                 "port":  "8080",
+                                                 "path":  [
+                                                              "api",
+                                                              "students",
+                                                              "{{studentId}}"
+                                                          ]
+                                             }
+                                 },
+                     "response":  [
+
+                                  ]
+                 }
+             ],
+    "variable":  [
+                     {
+                         "key":  "studentId",
+                         "value":  ""
+                     }
+                 ]
+}
